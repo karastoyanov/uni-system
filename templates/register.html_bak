@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Service Uni System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+</head>
+<body>
+    <div>
+        <form id="registerForm">
+            <h2>Register</h2>
+            <label for="registerFirstName">First Name:</label>
+            <input type="text" id="registerFirstName" name="registerFirstName" required>
+
+            <label for="registerLastName">Last Name:</label>
+            <input type="text" id="registerLastName" name="registerLastName" required>
+
+            <label for="registerUsername">Username:</label>
+            <input type="text" id="registerUsername" name="registerUsername" required>
+
+            <label for="emailAddress">Email Address:</label>
+            <input type="text" id="emailAddress" name="emailAddress" required>
+
+            <label for="registerPassword">Password:</label>
+            <input type="password" id="registerPassword" name="registerPassword" required>
+            
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+            <button type="button" onclick="register()">Register</button>
+        </form>
+    </div>
+    <script>
+        function login() {
+            // Add login logic here
+            alert("Login button clicked!");
+        }
+
+        function register() {
+            // Add register logic here
+            alert("Register button clicked!");
+        }
+    </script>
+
+</body>
+</html>

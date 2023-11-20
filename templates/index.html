@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block head%}
+
+{% endblock %}
+
+{% block body %}
+<div>
+    <form id="loginForm">
+        <h2>Login</h2>
+        <label for="loginUsername">Username:</label>
+        <input type="text" id="loginUsername" name="loginUsername" required>
+
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" name="loginPassword" required>
+
+        <button type="button" onclick="login()">Login</button>
+        <button type="button" onclick="redirectToNewPage()" class=register_button>Register</button>
+    </form>
+
+</div>
+
+
+<script>
+    function redirectToNewPage() {
+        window.location.href = "{{ url_for('register') }}";
+    }
+</script>
+{% endblock %}

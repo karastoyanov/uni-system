@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,300;1,400;1,600&display=swap');
+
+body {
+    font-family: 'Saira', Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #0072fd;
+    font-family: 'Saira', Arial, sans-serif;;
+    color: rgb(255, 255, 255);
+    padding: 10px 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0066ff;
+}
+
+.register-button {
+    background-color: #0072fd;
+    font-family: 'Saira', Arial, sans-serif;;
+    color: rgb(255, 255, 255);
+    padding: 10px 15px;
+    margin-left: 0px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.register-button:hover {
+    background-color: #0066ff;
+
+}
+
+.register-form {
+    color: #000000;
+    font-family: 'Saira', Arial, sans-serif;
+}

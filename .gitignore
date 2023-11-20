@@ -1,0 +1,12 @@
+# Ignore env file
+.env
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore working files
+/__pycache__/
+useful_commands
+
+# Ignore venv dir
+/venv-app/

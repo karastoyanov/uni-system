@@ -6,6 +6,7 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -38,6 +39,14 @@ button {
 
 button:hover {
     background-color: #0066ff;
+}
+
+/* div container vertical separator */
+.container {
+    margin: 10px; /* Add margin for separation */
+    display: block;
+    width: 100%;
+    max-width: 400px;
 }
 
 .register-button {

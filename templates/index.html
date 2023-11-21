@@ -6,7 +6,7 @@
 
 {% block body %}
 <div>
-    <form id="loginForm">
+    <form id="loginForm" method="post" action="{{ url_for('login') }}">
         <h2>Login</h2>
         <label for="loginUsername">Username:</label>
         <input type="text" id="loginUsername" name="loginUsername" required>
@@ -15,15 +15,18 @@
         <input type="password" id="loginPassword" name="loginPassword" required>
 
         <button type="button" onclick="login()">Login</button>
-        <button type="button" onclick="redirectToNewPage()" class=register_button>Register</button>
+        <button type="button" onclick="register()" class=register_button>Register</button>
     </form>
 
 </div>
 
 
 <script>
-    function redirectToNewPage() {
+    function register() {
         window.location.href = "{{ url_for('register') }}";
+    }
+    function login(){
+        window.location.href = "{{ url_for('login') }}";
     }
 </script>
 {% endblock %}

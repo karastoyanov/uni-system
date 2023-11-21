@@ -1,9 +1,11 @@
+# Imports
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, validators
+from flask_bcrypt import Bcrypt  # Password hashing
+from flask_login import LoginManager, UserMixin, login_user
 from dotenv import load_dotenv
 import os
+from forms import RegistrationForm, LoginForm
 
 # Load the env
 load_dotenv()
@@ -13,10 +15,18 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.urandom(24).hex()
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+# Init the password hashing
+bcrypt = Bcrypt(app)
 
 # Init the database connection
 db = SQLAlchemy(app)
+
+# Init the login manager
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+login_manager.login_message_category = 'info'
 
 
 # Define User model
@@ -26,7 +36,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     first_name = db.Column(db.String(80), nullable=False)
     last_name = db.Column(db.String(80), nullable=False)
-    password = db.Column(db.String(120), nullable=False)
+    password = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     
     # Class constuctor
@@ -37,22 +47,17 @@ class User(db.Model):
         self.password = password
         self.email = email
     
+    # Get the user_ID
+    def get_id(self):
+        return str(self.id)
+    
     # Print the User info
     def __repr__(self):
         return f'<User {self.username} with {self.email}>'
 
-# Register Form
-class RegistrationForm(FlaskForm):
-    username = StringField('Username:', [validators.Length(min=4, max=25)])
-    first_name = StringField('First Name:', [validators.Length(min=4, max=25)])
-    last_name = StringField('Last Name:', [validators.Length(min=4, max=25)])
-    email = StringField('Email:', [validators.Email()])
-    password = PasswordField('Password:', [
-        validators.DataRequired(),
-        validators.EqualTo('confirm', message='Passwords must match')
-    ])
-    confirm = PasswordField('Repeat Password:')
-    submit = SubmitField('Register')
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 with app.app_context():
     # Create the database tables
@@ -61,26 +66,6 @@ with app.app_context():
 @app.route('/')
 def index():
     return render_template('index.html')
-
-@app.route('/submit', methods=["GET", "POST"])
-def submit():
-    if request.method == "POST":
-        username = request.form['username']
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
-        password = request.form['password']
-        email = request.form['email']
-        
-        
-        user = User(username, first_name, last_name, password, email)
-        db.session.add(user)
-        db.session.commit()
-        
-        userResult = db.session.query(User).filter(User.id == 1)
-        for result in userResult:
-            print(result.username)
-            
-    return render_template('account_created.html', data = username)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -97,19 +82,37 @@ def register():
         if existing_user:
             flash('Username or email already exists. Please choose different ones.', 'danger')
         else:
+            # Hash the password with bcrypt
+            hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
             # Create a new user and add it to the database
-            new_user = User(username=username, first_name = first_name, last_name = last_name, email=email, password=password)
+            new_user = User(username=username, first_name = first_name, last_name = last_name, email=email, password=hashed_password)
             db.session.add(new_user)
             db.session.commit()
             flash('Registration successful! Please log in.', 'success')
-            return redirect(url_for('index'))
+            # return redirect(url_for('index'))
 
     return render_template('register.html', form=form)
         
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    print("Form called")
+    if form.validate_on_submit():
+        print("Validation succesful!")
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            print("Login Succesful!")
+            login_user(user)
+            flash('Login successful!', 'success')
+            return redirect(url_for('main_page'))
+        else:
+            flash('Login unsuccessful. Please check your username and password.', 'danger')
+    return render_template('index.html', form=form)
 
-# @app.route('/register')
-# def register():
-#     return render_template('register.html')
+# # Redirect to main page
+# @app.route('/main_page')
+# def main_page():
+#     return render_template('main_page.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

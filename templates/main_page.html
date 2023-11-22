@@ -1,9 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'main_page_base.html' %}
 
 {% block head%}
+    <script src="{{ url_for('static', filename='side_menu.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/side_menu.css') }}">
+
 
 {% endblock %}
 
 {% block body %}
-    <p>Hello User!</p>
+
 {% endblock %}

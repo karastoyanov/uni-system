@@ -107,7 +107,8 @@ def login():
 
 # Redirect to main page
 @app.route('/main_page')
-@login_required
+# uncomment that line to require login to acces the main page
+# @login_required 
 def main_page():
     return render_template('main_page.html')
 

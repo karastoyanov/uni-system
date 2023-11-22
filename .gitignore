@@ -11,5 +11,5 @@ useful_commands
 # Ignore venv dir
 /venv-app/
 
-# Ignore bootstrap files
+# Ignore static/bootstrap files
 /static/

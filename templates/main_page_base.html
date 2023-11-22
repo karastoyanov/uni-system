@@ -3,23 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTP Self-Service</title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="../static/icons/apple-touch-icon.png">
     <link rel="icon" type="image/x-icon" sizes="32x32" href="../static/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../static/icons/favicon-16x16.png">
     <link rel="manifest" href="../icons/site.webmanifest">
-    <title>UTP Self-Service</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
     <link href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css">
     
-    <!-- Import Navigation bar CDN styles -->
+    <!-- Import Navigation bar styles -->
     <!-- <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-table.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/navbar.css') }}">
-
 
 
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
@@ -33,6 +32,14 @@
     <!-- Import Navigation Bar CDN scripts -->
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Include marked library from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+     <!-- Bootstrap JavaScript, Popper.js, and jQuery from CDN -->
+     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 
     {% block head%}{% endblock %}

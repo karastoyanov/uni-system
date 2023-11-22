@@ -2,7 +2,7 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt  # Password hashing
-from flask_login import LoginManager, UserMixin, login_user
+from flask_login import LoginManager, UserMixin, login_user, login_required
 from dotenv import load_dotenv
 import os
 from forms import RegistrationForm, LoginForm
@@ -30,7 +30,7 @@ login_manager.login_message_category = 'info'
 
 
 # Define User model
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__='users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
@@ -63,10 +63,6 @@ with app.app_context():
     # Create the database tables
     db.create_all()
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -90,10 +86,9 @@ def register():
             db.session.commit()
             flash('Registration successful! Please log in.', 'success')
             # return redirect(url_for('index'))
-
     return render_template('register.html', form=form)
         
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     print("Form called")
@@ -102,17 +97,19 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             print("Login Succesful!")
-            login_user(user)
+            login_user(user, force = True)
             flash('Login successful!', 'success')
+            print("Redirect me!")
             return redirect(url_for('main_page'))
         else:
             flash('Login unsuccessful. Please check your username and password.', 'danger')
     return render_template('index.html', form=form)
 
-# # Redirect to main page
-# @app.route('/main_page')
-# def main_page():
-#     return render_template('main_page.html')
+# Redirect to main page
+@app.route('/main_page')
+@login_required
+def main_page():
+    return render_template('main_page.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

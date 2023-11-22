@@ -6,7 +6,7 @@
 
 {% block body %}
 <div>
-    <form id="loginForm" method="post" action="{{ url_for('login') }}">
+    <!-- <form id="loginForm" method="post" action="{{ url_for('login') }}">
         <h2>Login</h2>
         <label for="loginUsername">Username:</label>
         <input type="text" id="loginUsername" name="loginUsername" required>
@@ -16,8 +16,15 @@
 
         <button type="button" onclick="login()">Login</button>
         <button type="button" onclick="register()" class=register_button>Register</button>
+    </form> -->
+    <form method="post" action="{{ url_for('login') }}">
+        <!-- {{ form.hidden_tag() }} -->
+        {{ form.csrf_token }}
+        {{ form.username }} 
+        {{ form.password }}
+        <!-- Други полета на формата -->
+        <input type="submit" value="Submit">
     </form>
-
 </div>
 
 
